@@ -12,10 +12,11 @@ public class EightTile {
         TileBoard board = new TileBoard();
         TileBoard board2 = new TileBoard( new int[][] {
                 {1,1,1},
-                {1,-1,1},
-                {1,1,1}
+                {1,1,1},
+                {1,1,-1}
         } );
 
         System.out.println( board2 );
+//        System.out.println( board2.getLocationOfEmptySpace() );
     }
 }
