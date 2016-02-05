@@ -1,4 +1,4 @@
-import java.lang.reflect.Array;
+import javax.sound.midi.SysexMessage;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -16,18 +16,15 @@ public class EightTile {
     public static void main( String[] args ){
         final TileBoard GOAL_STATE = new TileBoard(); //................................ the ideal configuration board
         TileBoard initialBoard = new TileBoard( new int[][] { //........................ initial board
-                {1,2,3},
-                {-1,4,5},
-                {7,6,8}
+                {1,3,4},
+                {8,2,5},
+                {7,6,-1}
         } );
 
         Queue<TileBoard> open = new LinkedList<>(); //.................................. the queue of open boards
         ArrayList<String> mostEfficientRoute = new ArrayList<>(); //............l....... list to hold most efficient route
         ArrayList<TileBoard> closed = new ArrayList<>(); //............................. list of already closed boards
         boolean isSolved = false; //.................................................... variable for algorithm loop
-        int level = 0; //............................................................... variable used to keep track of current level
-
-//        System.out.println( "Hscore: " + initialBoard.hScore() );
 
         open.add(initialBoard); //...................................................... add initial board to queue
 
@@ -37,50 +34,42 @@ public class EightTile {
                 isSolved = true;
             }
 
-                System.out.println("\n\n********\n" + open );
-
             TileBoard n = open.peek(); //.............................................. get the board at top of queue to analyze
-                System.out.printf( "%nLevel %d %nCurrent%s", level,n );
             closed.add( open.remove() ); //............................................ add top of queue to closed
 
             if( n.equals(GOAL_STATE)){ //.............................................. if current board is the goal we're done!
-                System.out.println( "Great Success, This is the goal state!" );
                 isSolved = true;
             }
             else{
-                addAllNodes( open, closed, n ); //.................................... if its not the goal, we have to add all children nodes to queue
-                level++; //........................................................... increment which level we're currently on
+                addAllNodes( open, closed, n, mostEfficientRoute ); //................. if its not the goal, we have to add all children nodes to queue
             }
         }
-////        open.add( initialBoard);
-//
-////        for( TileBoard print : open ) System.out.println( print );
-//
-////        System.out.println( "\n***" + open.remove() );
-//
-//
-////        System.out.print( goalState.equals(initialBoard));
-////        System.out.print( goalState );
-//
-////        System.out.println( initialBoard );
-////        System.out.println( initialBoard.emptySpaceLocation);
-////        initialBoard.move("e");
-////        System.out.println( initialBoard );
-////        System.out.println( initialBoard.emptySpaceLocation);
-////        System.out.println( initialBoard.getLocationOfEmptySpace() );
+
+        if( mostEfficientRoute.size() == 0 ) {
+            System.out.println("Great Success, This is the goal state!");
+        }
+        else printStepsToSolve( mostEfficientRoute );
     }
 
     // Method to add all the child nodes to the queue
     // takes the queue, the closed list, and the current board
-    private static void addAllNodes( Queue<TileBoard> open, ArrayList<TileBoard> closed, TileBoard n  ){
-        for( String direction: n.getAvailableMoves() ){ //.................................................. loops through all available moves
-            TileBoard copyBoard = new TileBoard( n.getBoard() ); //......................................... makes a copy of the current board
-            copyBoard.move(direction); //................................................................... makes one of the available moves
+    private static void addAllNodes( Queue<TileBoard> open, ArrayList<TileBoard> closed, TileBoard n, ArrayList<String> route ){
+        String routeString = "";
 
-            if( !boardInClosed(copyBoard, closed) ){ //..................................................... if the board is not in closed
-                open.add( copyBoard ); //................................................................... add it to the queue
+        for( String direction: n.getAvailableMoves() ){ //......................................................................... loops through all available moves
+            TileBoard copyBoard = new TileBoard( n.getBoard() ); //................................................................ makes a copy of the current board
+            copyBoard.move(direction); //.......................................................................................... makes one of the available moves
+
+            if( !boardInClosed(copyBoard, closed) ){ //............................................................................ if the board is not in closed
+                if( copyBoard.hScore() < n.hScore() ){
+                    routeString = direction; //.................................................................................... keep track of the direction
+                    open.add( copyBoard ); //...................................................................................... add it to the queue
+                }
             }
         }
+
+        if(!routeString.equals("")) //............................................................................................. as long as the string is not empty add it to route
+            route.add( routeString );
     }
 
     // Method to check if a board is already closed
@@ -91,5 +80,29 @@ public class EightTile {
         }
 
         return false; //.................................................................... if it makes it through all closed and hasn't returned true, its NOT in the closed list
+    }
+
+    // Method to print out the steps in order on how to solve the puzzle
+    private static void printStepsToSolve( ArrayList<String> route ){
+        System.out.printf( "Steps to solve: %d%n", route.size()); //...... a header
+        for( int i = 0; i < route.size(); i++ ){ //....................... loop through all routes and print them
+            System.out.printf( "%d: %s%n", i+1,fullWord(route.get(i)) );
+        }
+    }
+
+    // Method to return the full word based on the direction
+    private static String fullWord( String direction ){
+        switch( direction ){
+            case "n":
+                return "North";
+            case "e":
+                return "East";
+            case "s":
+                return "South";
+            case "w":
+                return "West";
+        }
+
+        return "";
     }
 }
