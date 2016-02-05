@@ -191,8 +191,55 @@ public class TileBoard {
         return returnBoard;
     }
 
+    // Method to give me the H-Score
+    // score is calculated by:
+    // 1 point per spot out of place
     public int hScore(){
+        TileBoard goalBoard = new TileBoard(); //............................................ ideal board configuration to compare to
+        int returnScore = 0; //.............................................................. variable to hold the score
 
+        for( int x = 0; x < this.board.length; x++ ){ //..................................... loop through each row
+            for( int y = 0; y < this.board[x].length; y++ ){ //.............................. loop through each column
+                if( this.board[x][y] != goalBoard.getBoard()[x][y] ){ //..................... if they don't match
+                    returnScore += this.determinePoints( this.board[x][y], x, y ); //........ increase score
+                }
+            }
+        }
+
+        return returnScore;
+    }
+
+    // Method to determine the points off the current number is
+    // takes the number being checked, and coordinates it's at
+    // finds the difference in current location and location it's supposed to be
+    // default points are 0
+    private int determinePoints(int num, int x, int y ){
+        switch( num ) {
+            case 1:
+                return Math.abs((0 - x) + (0 - y));
+
+            case 2:
+                return Math.abs((0 - x) + (1 - y));
+
+            case 3:
+                return Math.abs((0 - x) + (2 - y));
+
+            case 4:
+                return Math.abs((1 - x) + (2 - y));
+
+            case 5:
+                return Math.abs((2 - x) + (2 - y));
+
+            case 6:
+                return Math.abs((2 - x) + (1 - y));
+
+            case 7:
+                return Math.abs((2 - x) + (0 - y));
+
+            case 8:
+                return Math.abs((1 - x) + (0 - y));
+        }
+        return 0;
     }
 
 }

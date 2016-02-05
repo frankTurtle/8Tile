@@ -16,9 +16,9 @@ public class EightTile {
     public static void main( String[] args ){
         final TileBoard GOAL_STATE = new TileBoard();
         TileBoard initialBoard = new TileBoard( new int[][] {
-                {1,2,-1},
-                {8,4,3},
-                {7,6,5}
+                {1,2,3},
+                {-1,4,5},
+                {7,6,8}
         } );
 
 //        for( String move : initialBoard.getAvailableMoves() )System.out.println( move );
@@ -29,27 +29,29 @@ public class EightTile {
         boolean isSolved = false;
         int count = 0;
 
-        while( !isSolved ){
-            if( open.isEmpty() ){
-                System.out.println( "No solution" );
-                isSolved = true;
-            }
+        System.out.println( "Hscore: " + initialBoard.hScore() );
 
-                System.out.println("\n\n********\n" + open );
-
-            TileBoard n = open.peek();
-                System.out.printf( "%nCount %d %nCurrent%s", count,n );
-            closed.add( open.remove() );
-            count++;
-
-            if( n.equals(GOAL_STATE)){
-                System.out.println( "Great Success, This is the goal state!" );
-                isSolved = true;
-            }
-            else{
-                addAllNodes( open, closed, n );
-            }
-        }
+//        while( !isSolved ){
+//            if( open.isEmpty() ){
+//                System.out.println( "No solution" );
+//                isSolved = true;
+//            }
+//
+//                System.out.println("\n\n********\n" + open );
+//
+//            TileBoard n = open.peek();
+//                System.out.printf( "%nCount %d %nCurrent%s", count,n );
+//            closed.add( open.remove() );
+//            count++;
+//
+//            if( n.equals(GOAL_STATE)){
+//                System.out.println( "Great Success, This is the goal state!" );
+//                isSolved = true;
+//            }
+//            else{
+//                addAllNodes( open, closed, n );
+//            }
+//        }
 ////        open.add( initialBoard);
 //
 ////        for( TileBoard print : open ) System.out.println( print );
