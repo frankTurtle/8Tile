@@ -5,7 +5,7 @@ import java.awt.*;
  * This class represents a 3x3 grid full of numbers and one negative number
  * The X is indicates a blank spot on the board where the numbers can move freely
  * Created: 02/03/16
- * Updated: 02/03/16
+ * Updated: 02/05/16
  * Author: Barret J. Nobel
  * Contact: bear.nobel at gmail
  */
@@ -13,7 +13,7 @@ public class TileBoard {
 
     private final int EMPTY_SPACE = -1; //........ variable for the empty space
     private int[][] board; //..................... multidimensional array to the emptySpaceLocation of all spaces on the board
-    private Point emptySpaceLocation; //.......... emptySpaceLocation of the empty space
+    private Point emptySpaceLocation; //........... emptySpaceLocation of the empty space
 
     // Default constructor
     public TileBoard() {
@@ -35,12 +35,12 @@ public class TileBoard {
     // Row 2: 8 X 4
     // Row 3: 7 6 5
     public TileBoard( int[][] arrayIn ){
-        this.board = new int[3][3]; //........................................ instantiates the board to be 3x3
+        this.board = new int[3][3]; //.............................................................................................. instantiates the board to be 3x3
 
-        for( int i = 0; i < board.length; i++ ) //............................ loops through each row
-            System.arraycopy(arrayIn[i], 0, board[i], 0, board[i].length); //. copies values from array passed in
+        for( int i = 0; i < board.length; i++ ) //.................................................................................. loops through each row
+            System.arraycopy(arrayIn[i], 0, board[i], 0, board[i].length); //....................................................... copies values from array passed in
 
-        this.emptySpaceLocation = new Point( this.getLocationOfEmptySpace(arrayIn).x, this.getLocationOfEmptySpace(arrayIn).y );
+        this.emptySpaceLocation = new Point( this.getLocationOfEmptySpace(arrayIn).x, this.getLocationOfEmptySpace(arrayIn).y ); //. sets the empty space location
     }
 
     // Overridden toString
@@ -59,34 +59,63 @@ public class TileBoard {
     }
 
     // Method to move swap the number with an empty space in the corresponding direction
+    // checks to see if move is valid and then updates the board and empty location
     public void move( String direction ){
-        //TODO: implement
+        if( isValidMove(direction) ){ //.............................................. if its a valid move
+            int x = (int)this.emptySpaceLocation.getX(); //........................... get current x for empty space
+            int y = (int)this.emptySpaceLocation.getY(); //........................... get current y for empty space
+
+            switch( direction.toLowerCase() ){ //..................................... switch to determine the direction chosen
+                case "n": //.......................................................... move north
+                    this.updateBoard( (x-1) , y );
+                    break;
+
+                case "e": //.......................................................... move east
+                    this.updateBoard( x , (y+1) );
+                    break;
+
+                case "s": //.......................................................... move south
+                    this.updateBoard( (x+1) , y );
+                    break;
+
+                case "w": //.......................................................... move west
+                    this.updateBoard( x , (y-1) );
+                    break;
+            }
+        }
+        else System.out.println( "\n***Invalid choice, please try again!***\n"); //... if its not valid print an error message
+    }
+
+    // Method to update the board values
+    // takes the X, Y coordinates to be updated
+    // swaps the empty space and with the value
+    // in the coordinates
+    public void updateBoard( int xUpdate, int yUpdate ){
+        this.board[ (int)this.emptySpaceLocation.getX() ][ (int)this.emptySpaceLocation.getY() ] = this.board[ xUpdate ][ yUpdate ]; //.. assigns the empty space the value in the direction were moving
+        this.setEmptySpaceLocation( xUpdate, yUpdate ); //............................................................................... update empty space coordinates
+        this.board[ xUpdate ][ yUpdate ] = -1; //........................................................................................ set the new empty space in the board array itself
     }
 
     // Method to determine if a move is valid
+    // based on the current location of the empty space coordinates
+    // default case is false
     private boolean isValidMove( String direction ){
-        boolean isValid = false;
-
         switch (direction.toLowerCase()){
             case "n":
-
-                break;
+                return ( this.emptySpaceLocation.getX() > 0 );
 
             case "e":
-                break;
+                return ( this.emptySpaceLocation.getX() < 2 );
 
             case "s":
-                break;
+                return ( this.emptySpaceLocation.getY() < 2 );
 
             case "w":
-                break;
+                return ( this.emptySpaceLocation.getY() > 0 );
 
             default:
-                System.err.println( "Invalid choice, please try again");
-                break;
+                return false;
         }
-
-        return true;
     }
 
     // Method to return the emptySpaceLocation of the empty space
@@ -101,9 +130,9 @@ public class TileBoard {
     private Point getLocationOfEmptySpace( int[][] arrayIn ){
         Point returnPoint = new Point( 0,0 ); //.................. point object to return
 
-        for( int y = 0; y < arrayIn.length; y++ ){ //............. loop through the rows
-            for( int x = 0; x < arrayIn[y].length; x++ ){ //...... loop through each column
-                if( arrayIn[y][x] < 0 ) //........................ if its the empty one
+        for( int x = 0; x < arrayIn.length; x++ ){ //............. loop through the rows
+            for( int y = 0; y < arrayIn[x].length; y++ ){ //...... loop through each column
+                if( arrayIn[x][y] < 0 ) //........................ if its the empty one
                     returnPoint.setLocation(x,y); //.............. assign the coordinates
             }
         }
@@ -111,9 +140,14 @@ public class TileBoard {
         return returnPoint;
     }
 
-    // Method to set the empty space
+    // Method to set the empty space location from a Point object
     private void setEmptySpaceLocation( Point emptySpaceLocation ){
         this.emptySpaceLocation.setLocation( emptySpaceLocation );
+    }
+
+    // Method to set the empty space based on the coordinates
+    private void setEmptySpaceLocation( int x, int y ){
+        this.emptySpaceLocation.setLocation( x, y );
     }
 
 }
