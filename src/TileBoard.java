@@ -48,7 +48,7 @@ public class TileBoard {
     // Overridden toString
     // prints the board as it is currently
     public String toString(){
-        String returnString = "";// = "Current Board"; //......................... create String to return
+        String returnString = "Current Board"; //......................... create String to return
 
         for( int i = 0; i < this.board.length; i++ ){ //.................. loops through each row
             returnString += "\nRow " + (i+1) + ": "; //................... prints a header for each row with the row number
