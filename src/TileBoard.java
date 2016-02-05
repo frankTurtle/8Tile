@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Arrays;
 
 /**
  * Class TileBoard
@@ -99,7 +100,7 @@ public class TileBoard {
     // Method to determine if a move is valid
     // based on the current location of the empty space coordinates
     // default case is false
-    private boolean isValidMove( String direction ){
+    public boolean isValidMove( String direction ){
         switch (direction.toLowerCase()){
             case "n":
                 return ( this.emptySpaceLocation.getX() > 0 );
@@ -120,14 +121,14 @@ public class TileBoard {
 
     // Method to return the emptySpaceLocation of the empty space
     // calls the overridden method and passes in the current board
-    private Point getLocationOfEmptySpace(){
+    public Point getLocationOfEmptySpace(){
         return this.getLocationOfEmptySpace( this.board );
     }
 
     // Method to return the location of the empty space
     // coordinate system is cartesian plane with x as the column and y as the row
     // once the value is less than zero thats the empty space
-    private Point getLocationOfEmptySpace( int[][] arrayIn ){
+    public Point getLocationOfEmptySpace( int[][] arrayIn ){
         Point returnPoint = new Point( 0,0 ); //.................. point object to return
 
         for( int x = 0; x < arrayIn.length; x++ ){ //............. loop through the rows
@@ -141,13 +142,29 @@ public class TileBoard {
     }
 
     // Method to set the empty space location from a Point object
-    private void setEmptySpaceLocation( Point emptySpaceLocation ){
+    public void setEmptySpaceLocation( Point emptySpaceLocation ){
         this.emptySpaceLocation.setLocation( emptySpaceLocation );
     }
 
     // Method to set the empty space based on the coordinates
-    private void setEmptySpaceLocation( int x, int y ){
+    public void setEmptySpaceLocation( int x, int y ){
         this.emptySpaceLocation.setLocation( x, y );
+    }
+
+    // Method to compare if two objects are equal
+    public boolean equals( Object testThisBoard ){
+        if( this == testThisBoard )return true; //..................................................... if it is itself then it equals itself ... GO FIGURE!
+        if( !(testThisBoard instanceof TileBoard) ) return false; //................................... if its not even an object of this class it's clearly not going to be equal
+
+        TileBoard compareTo = (TileBoard)testThisBoard; //............................................. cast the object to check instance variables
+        boolean answer = this.emptySpaceLocation.getX() == compareTo.emptySpaceLocation.getX() && //... empty space x coordinate
+                this.emptySpaceLocation.getY() == compareTo.emptySpaceLocation.getY(); //.............. empty space y coordinate
+
+        for( int i = 0; i < this.board.length; i++ ) { //.............................................. check the array's within the board
+            if( !(Arrays.equals(this.board[i], compareTo.board[i]) ) ) return false;
+        }
+
+        return answer;
     }
 
 }
