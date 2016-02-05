@@ -68,17 +68,17 @@ public class TileBoard {
         boolean isValid = false;
 
         switch (direction.toLowerCase()){
-            case "north":
+            case "n":
 
                 break;
 
-            case "east":
+            case "e":
                 break;
 
-            case "south":
+            case "s":
                 break;
 
-            case "west":
+            case "w":
                 break;
 
             default:
