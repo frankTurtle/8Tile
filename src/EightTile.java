@@ -14,42 +14,42 @@ import java.util.Queue;
 public class EightTile {
 
     public static void main( String[] args ){
-        final TileBoard GOAL_STATE = new TileBoard();
-        TileBoard initialBoard = new TileBoard( new int[][] {
+        final TileBoard GOAL_STATE = new TileBoard(); //................................ the ideal configuration board
+        TileBoard initialBoard = new TileBoard( new int[][] { //........................ initial board
                 {1,2,3},
                 {-1,4,5},
                 {7,6,8}
         } );
 
-//        for( String move : initialBoard.getAvailableMoves() )System.out.println( move );
-
-        Queue<TileBoard> open = new LinkedList<>();
-        ArrayList<TileBoard> closed = new ArrayList<>();
-        open.add(initialBoard);
-        boolean isSolved = false;
-        int level = 0;
+        Queue<TileBoard> open = new LinkedList<>(); //.................................. the queue of open boards
+        ArrayList<String> mostEfficientRoute = new ArrayList<>(); //............l....... list to hold most efficient route
+        ArrayList<TileBoard> closed = new ArrayList<>(); //............................. list of already closed boards
+        boolean isSolved = false; //.................................................... variable for algorithm loop
+        int level = 0; //............................................................... variable used to keep track of current level
 
 //        System.out.println( "Hscore: " + initialBoard.hScore() );
 
-        while( !isSolved ){
-            if( open.isEmpty() ){
+        open.add(initialBoard); //...................................................... add initial board to queue
+
+        while( !isSolved ){ //.......................................................... while we've not solved the route
+            if( open.isEmpty() ){ //.................................................... if the queue is empty we're done, no solution
                 System.out.println( "No solution" );
                 isSolved = true;
             }
 
                 System.out.println("\n\n********\n" + open );
 
-            TileBoard n = open.peek();
+            TileBoard n = open.peek(); //.............................................. get the board at top of queue to analyze
                 System.out.printf( "%nLevel %d %nCurrent%s", level,n );
-            closed.add( open.remove() );
+            closed.add( open.remove() ); //............................................ add top of queue to closed
 
-            if( n.equals(GOAL_STATE)){
+            if( n.equals(GOAL_STATE)){ //.............................................. if current board is the goal we're done!
                 System.out.println( "Great Success, This is the goal state!" );
                 isSolved = true;
             }
             else{
-                addAllNodes( open, closed, n );
-                level++;
+                addAllNodes( open, closed, n ); //.................................... if its not the goal, we have to add all children nodes to queue
+                level++; //........................................................... increment which level we're currently on
             }
         }
 ////        open.add( initialBoard);
