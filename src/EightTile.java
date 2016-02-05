@@ -1,8 +1,3 @@
-import javax.sound.midi.SysexMessage;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-
 /**
  * Class EightTile
  * This class is used to test the TileBoard class
@@ -11,6 +6,11 @@ import java.util.Queue;
  * Author: Barret J. Nobel
  * Contact: bear.nobel at gmail
  */
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class EightTile {
 
     public static void main( String[] args ){

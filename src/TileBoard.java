@@ -1,6 +1,3 @@
-import java.awt.*;
-import java.util.Arrays;
-
 /**
  * Class TileBoard
  * This class represents a 3x3 grid full of numbers and one negative number
@@ -10,6 +7,10 @@ import java.util.Arrays;
  * Author: Barret J. Nobel
  * Contact: bear.nobel at gmail
  */
+
+import java.awt.*;
+import java.util.Arrays;
+
 public class TileBoard {
 
     private final int EMPTY_SPACE = -1; //........ variable for the empty space
