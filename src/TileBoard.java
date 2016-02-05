@@ -47,7 +47,7 @@ public class TileBoard {
     // Overridden toString
     // prints the board as it is currently
     public String toString(){
-        String returnString = "Current Board"; //......................... create String to return
+        String returnString = "";// = "Current Board"; //......................... create String to return
 
         for( int i = 0; i < this.board.length; i++ ){ //.................. loops through each row
             returnString += "\nRow " + (i+1) + ": "; //................... prints a header for each row with the row number
@@ -106,10 +106,10 @@ public class TileBoard {
                 return ( this.emptySpaceLocation.getX() > 0 );
 
             case "e":
-                return ( this.emptySpaceLocation.getX() < 2 );
+                return ( this.emptySpaceLocation.getY() < 2 );
 
             case "s":
-                return ( this.emptySpaceLocation.getY() < 2 );
+                return ( this.emptySpaceLocation.getX() < 2 );
 
             case "w":
                 return ( this.emptySpaceLocation.getY() > 0 );
@@ -165,6 +165,30 @@ public class TileBoard {
         }
 
         return answer;
+    }
+
+    // Method that returns an array of the active moves available
+    public String[] getAvailableMoves(){
+        String moves = "";
+        String[] allMoves = { "n", "e", "s", "w" };
+        for( String direction : allMoves ){
+            if( this.isValidMove( direction ) ){
+                moves += direction + " ";
+            }
+        }
+
+        return moves.split(" ");
+
+    }
+
+    // Method to return the board
+    public int[][] getBoard() {
+        int[][] returnBoard = new int[3][3];
+
+        for( int i = 0; i < returnBoard.length; i++ )
+            System.arraycopy(this.board[i], 0, returnBoard[i], 0, returnBoard[i].length);
+
+        return returnBoard;
     }
 
 }
