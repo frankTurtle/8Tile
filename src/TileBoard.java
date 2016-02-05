@@ -94,7 +94,7 @@ public class TileBoard {
     public void updateBoard( int xUpdate, int yUpdate ){
         this.board[ (int)this.emptySpaceLocation.getX() ][ (int)this.emptySpaceLocation.getY() ] = this.board[ xUpdate ][ yUpdate ]; //.. assigns the empty space the value in the direction were moving
         this.setEmptySpaceLocation( xUpdate, yUpdate ); //............................................................................... update empty space coordinates
-        this.board[ xUpdate ][ yUpdate ] = -1; //........................................................................................ set the new empty space in the board array itself
+        this.board[ xUpdate ][ yUpdate ] = EMPTY_SPACE; //............................................................................... set the new empty space in the board array itself
     }
 
     // Method to determine if a move is valid
