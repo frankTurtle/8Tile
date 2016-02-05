@@ -191,4 +191,8 @@ public class TileBoard {
         return returnBoard;
     }
 
+    public int hScore(){
+
+    }
+
 }
