@@ -27,31 +27,31 @@ public class EightTile {
         ArrayList<TileBoard> closed = new ArrayList<>();
         open.add(initialBoard);
         boolean isSolved = false;
-        int count = 0;
+        int level = 0;
 
-        System.out.println( "Hscore: " + initialBoard.hScore() );
+//        System.out.println( "Hscore: " + initialBoard.hScore() );
 
-//        while( !isSolved ){
-//            if( open.isEmpty() ){
-//                System.out.println( "No solution" );
-//                isSolved = true;
-//            }
-//
-//                System.out.println("\n\n********\n" + open );
-//
-//            TileBoard n = open.peek();
-//                System.out.printf( "%nCount %d %nCurrent%s", count,n );
-//            closed.add( open.remove() );
-//            count++;
-//
-//            if( n.equals(GOAL_STATE)){
-//                System.out.println( "Great Success, This is the goal state!" );
-//                isSolved = true;
-//            }
-//            else{
-//                addAllNodes( open, closed, n );
-//            }
-//        }
+        while( !isSolved ){
+            if( open.isEmpty() ){
+                System.out.println( "No solution" );
+                isSolved = true;
+            }
+
+                System.out.println("\n\n********\n" + open );
+
+            TileBoard n = open.peek();
+                System.out.printf( "%nLevel %d %nCurrent%s", level,n );
+            closed.add( open.remove() );
+
+            if( n.equals(GOAL_STATE)){
+                System.out.println( "Great Success, This is the goal state!" );
+                isSolved = true;
+            }
+            else{
+                addAllNodes( open, closed, n );
+                level++;
+            }
+        }
 ////        open.add( initialBoard);
 //
 ////        for( TileBoard print : open ) System.out.println( print );
@@ -70,22 +70,26 @@ public class EightTile {
 ////        System.out.println( initialBoard.getLocationOfEmptySpace() );
     }
 
+    // Method to add all the child nodes to the queue
+    // takes the queue, the closed list, and the current board
     private static void addAllNodes( Queue<TileBoard> open, ArrayList<TileBoard> closed, TileBoard n  ){
-        for( String direction: n.getAvailableMoves() ){
-            TileBoard copyBoard = new TileBoard( n.getBoard() );
-            copyBoard.move(direction);
+        for( String direction: n.getAvailableMoves() ){ //.................................................. loops through all available moves
+            TileBoard copyBoard = new TileBoard( n.getBoard() ); //......................................... makes a copy of the current board
+            copyBoard.move(direction); //................................................................... makes one of the available moves
 
-            if( !boardInClosed(copyBoard, closed) ){
-                open.add( copyBoard );
+            if( !boardInClosed(copyBoard, closed) ){ //..................................................... if the board is not in closed
+                open.add( copyBoard ); //................................................................... add it to the queue
             }
         }
     }
 
+    // Method to check if a board is already closed
+    // takes in the current board and the closed list
     private static boolean boardInClosed( TileBoard board, ArrayList<TileBoard> closed ) {
-        for( TileBoard closedBoard: closed ){
-            if( board.equals(closedBoard )) return true;
+        for( TileBoard closedBoard: closed ){ //............................................ loops through each board in the closed list
+            if( board.equals(closedBoard )) return true; //................................. if the current board is equal to the one in the closed list it's in closed!
         }
 
-        return false;
+        return false; //.................................................................... if it makes it through all closed and hasn't returned true, its NOT in the closed list
     }
 }
