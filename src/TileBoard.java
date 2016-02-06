@@ -3,7 +3,7 @@
  * This class represents a 3x3 grid full of numbers and one negative number
  * The X is indicates a blank spot on the board where the numbers can move freely
  * Created: 02/03/16
- * Updated: 02/05/16
+ * Updated: 02/06/16
  * Author: Barret J. Nobel
  * Contact: bear.nobel at gmail
  */

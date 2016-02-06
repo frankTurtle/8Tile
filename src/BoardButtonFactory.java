@@ -2,7 +2,7 @@
  * Class BoardButtonFactory
  * This class creates all the buttons for the gamefield
  * Created: 02/05/16
- * Updated: 02/05/16
+ * Updated: 02/06/16
  * Author: Barret J. Nobel
  * Contact: bear.nobel at gmail
  */

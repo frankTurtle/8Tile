@@ -2,7 +2,7 @@
  * Class EightTileGUI
  * This class to give it a GUI and user interaction
  * Created: 02/05/16
- * Updated: 02/05/16
+ * Updated: 02/06/16
  * Author: Barret J. Nobel
  * Contact: bear.nobel at gmail
  */

@@ -2,7 +2,7 @@
  * Class EightTile
  * This class is used to test the TileBoard class
  * Created: 02/03/16
- * Updated: 02/05/16
+ * Updated: 02/06/16
  * Author: Barret J. Nobel
  * Contact: bear.nobel at gmail
  */
@@ -53,8 +53,6 @@ public class EightTile {
                 {8,2,5},
                 {7,6,-1}
         } );
-
-        EightTile test = new EightTile();
 
         Queue<TileBoard> open = new LinkedList<>(); //.................................. the queue of open boards
         ArrayList<String> mostEfficientRoute = new ArrayList<>(); //............l....... list to hold most efficient route
