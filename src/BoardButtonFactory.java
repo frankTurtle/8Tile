@@ -26,18 +26,45 @@ public class BoardButtonFactory {
     // takes a multidimensional array in and populates the buttons
     // also increases font size for buttons
     public BoardButtonFactory( int[][] labels ){
-        jButtons = new ArrayList<>(); //..................................................................... instantiate the ArrayList
-        for( int row = 0; row < labels.length; row++ ){ //................................................... loop through each row
-            for( int label : labels[row] ){ //............................................................... loop through each column
-                JButton addThisButton = ( label > 0 ) ? new JButton( "" + label ) : new JButton( "X" ); //... create a button with label from array - X if its the space
-                addThisButton.setFont(new Font("Arial", Font.PLAIN, 40)); //................................. increase font of button
-                jButtons.add( addThisButton ); //............................................................ add buttons to ArrayList
+        jButtons = new ArrayList<>(); //................................................................................................ instantiate the ArrayList
+        for( int row = 0; row < labels.length; row++ ){ //............................................................................... loop through each row
+            for( int column = 0; column < labels[row].length; column++ ){
+                JButton addThisButton = ( labels[row][column] > 0 ) ? new JButton( "" + labels[row][column] ) : new JButton( "X" ); //... create a button with label from array - X if its the space
+                addThisButton.setFont(new Font("Arial", Font.PLAIN, 40)); //............................................................. increase font of button
+                addThisButton.setEnabled( enableButton(labels, row, column) ); //........................................................ only enables buttons alowed to move to
+                jButtons.add( addThisButton ); //........................................................................................ add buttons to ArrayList
             }
         }
+    }
+
+    // Constructor that take in a TileBoard object
+    // it then creates the buttons from that
+    public BoardButtonFactory( TileBoard board ){
+        this( board.getBoard() );
     }
 
     // Method to return the ArrayList full of buttons
     public ArrayList<JButton> getJButtons(){
         return jButtons;
+    }
+
+    // Method to only enable buttons allowed to move to
+    private boolean enableButton(int[][] labels, int row, int column ){
+        TileBoard board = new TileBoard( labels ); //................................ new board
+        Point currentLocation = new Point( row, column ); //......................... current location
+
+        if( board.getLocationOfEmptySpace().x == currentLocation.x &&
+            board.getLocationOfEmptySpace().y == currentLocation.y )return false; //. if its the current location disable it
+
+        for( int i = 0; i < board.getAvailableMoves().length; i++) { //.............. loop through the available moves
+            TileBoard tempBoard = new TileBoard( labels ); //........................ create a temp board
+            tempBoard.move( board.getAvailableMoves()[i] ); //....................... move in temp board available moves
+            Point tempBlank = tempBoard.getLocationOfEmptySpace(); //................ the new blank of the temp board
+
+            if( currentLocation.equals(tempBlank) ) //............................... if they're the same enable the button
+                return true;
+        }
+
+        return false; //............................................................. if none are true don't enable the button
     }
 }

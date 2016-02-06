@@ -29,7 +29,6 @@ public class EightTileGUI {
 
     public static void main(String[] args){
         EightTileGUI swingControlDemo = new EightTileGUI();
-//        swingControlDemo.showEventDemo();
     }
 
     private void prepareGUI(){
@@ -37,10 +36,6 @@ public class EightTileGUI {
         mainFrame.setSize(500,500);
         mainFrame.setLayout(new GridLayout(0, 2));
 
-        headerLabel = new JLabel("",JLabel.CENTER );
-        statusLabel = new JLabel("",JLabel.CENTER);
-
-        statusLabel.setSize(350,100);
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent){
                 System.exit(0);
@@ -79,6 +74,11 @@ public class EightTileGUI {
 
         mainFrame.setVisible(true);
     }
+
+    private void setupButtonListeners(){
+
+    }
+
 
     private void showEventDemo(){
         headerLabel.setText("Control in action: Button");

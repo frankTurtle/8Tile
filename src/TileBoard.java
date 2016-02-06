@@ -53,7 +53,7 @@ public class TileBoard {
         for( int i = 0; i < this.board.length; i++ ){ //............................. loops through each row
             returnString += "\nRow " + (i+1) + ": "; //.............................. prints a header for each row with the row number
             for( int number : this.board[i] ){ //.................................... loops through each column
-                returnString += ( number == EMPTY_SPACE ) ? number + " " : "X "; //.. concatenate the number, and put an X if its the empty space
+                returnString += ( number > 0 ) ? number + " " : "X "; //.. concatenate the number, and put an X if its the empty space
             }
         }
 
