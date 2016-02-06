@@ -69,7 +69,7 @@ public class EightTileGUI {
         hintLabel.addMouseListener( new HintButtonHover() ); //.......... handles hovering ( displays hint )
 
         // ************* GENERATE NEW BOARD BUTTON ************* //
-        JButton generateButton = new JButton("GENERATE");
+        JButton generateButton = new JButton("RANDOM");
 
         rightSide.add(searchTypes); //.................................... add all components to the panel on the right side
         rightSide.add(textField);
