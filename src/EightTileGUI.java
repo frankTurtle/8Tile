@@ -29,7 +29,7 @@ public class EightTileGUI {
 
     public static void main(String[] args){
         EightTileGUI swingControlDemo = new EightTileGUI();
-        swingControlDemo.showEventDemo();
+//        swingControlDemo.showEventDemo();
     }
 
     private void prepareGUI(){
@@ -49,7 +49,7 @@ public class EightTileGUI {
         gameButtons = new JPanel();
         gameButtons.setLayout(new GridLayout(3,3));
 
-        for( JButton button : BoardButtonFactory.getJButtons() ){
+        for( JButton button : new BoardButtonFactory().getJButtons() ){
             gameButtons.add( button );
         }
 
@@ -76,6 +76,8 @@ public class EightTileGUI {
 
         mainFrame.add(gameButtons);
         mainFrame.add(rightSide);
+
+        mainFrame.setVisible(true);
     }
 
     private void showEventDemo(){
@@ -93,7 +95,7 @@ public class EightTileGUI {
         submitButton.addActionListener(new ButtonClickListener());
         cancelButton.addActionListener(new ButtonClickListener());
 
-        mainFrame.setVisible(true);
+
     }
 
     private class ButtonClickListener implements ActionListener{

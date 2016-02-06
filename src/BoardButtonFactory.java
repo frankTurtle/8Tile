@@ -37,7 +37,7 @@ public class BoardButtonFactory {
     }
 
     // Method to return the ArrayList full of buttons
-    public static ArrayList<JButton> getJButtons(){
+    public ArrayList<JButton> getJButtons(){
         return jButtons;
     }
 }
