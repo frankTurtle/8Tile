@@ -68,14 +68,23 @@ public class EightTileGUI {
         hintLabel.addMouseListener( new HintButtonHover() ); //.......... handles hovering ( displays hint )
 
         // ************* GENERATE NEW BOARD BUTTON ************* //
+        JPanel generateAndSolveButtons = new JPanel();
+        generateAndSolveButtons.setLayout( new GridLayout(0,2) );
+
         JButton generateButton = new JButton("RANDOM");
+        JButton solveButton = new JButton( "SOLVE" );
         generateButton.setActionCommand( "random" );
+        solveButton.setActionCommand( "solve" );
         generateButton.addActionListener( new ButtonClickListener() );
+        solveButton.addActionListener( new ButtonClickListener() );
+
+        generateAndSolveButtons.add( generateButton );
+        generateAndSolveButtons.add( solveButton );
 
         rightSide.add(searchTypes); //.................................... add all components to the panel on the right side
         rightSide.add(textField);
         rightSide.add(hintLabel);
-        rightSide.add(generateButton);
+        rightSide.add(generateAndSolveButtons);
 
         mainFrame.add(gameButtons); //.................................... add the right and left panels to the mainFrame
         mainFrame.add(rightSide);
