@@ -44,7 +44,8 @@ public class EightTileGUI {
         gameButtons = new JPanel();
         gameButtons.setLayout(new GridLayout(3,3));
 
-        for( JButton button : new BoardButtonFactory().getJButtons() ){
+        for( JButton button : new BoardButtonFactory().getJButtonsAsAList() ){
+            button.addActionListener( new ButtonClickListener() );
             gameButtons.add( button );
         }
 
@@ -75,40 +76,21 @@ public class EightTileGUI {
         mainFrame.setVisible(true);
     }
 
-    private void setupButtonListeners(){
-
-    }
-
-
-    private void showEventDemo(){
-        headerLabel.setText("Control in action: Button");
-
-        JButton okButton = new JButton("OK");
-        JButton submitButton = new JButton("Submit");
-        JButton cancelButton = new JButton("Cancel");
-
-        okButton.setActionCommand("OK");
-        submitButton.setActionCommand("Submit");
-        cancelButton.setActionCommand("Cancel");
-
-        okButton.addActionListener(new ButtonClickListener());
-        submitButton.addActionListener(new ButtonClickListener());
-        cancelButton.addActionListener(new ButtonClickListener());
-
-
-    }
-
     private class ButtonClickListener implements ActionListener{
         public void actionPerformed(ActionEvent e) {
-            String command = e.getActionCommand();
-            if( command.equals( "OK" ))  {
-                statusLabel.setText("Ok Button clicked.");
-            }
-            else if( command.equals( "Submit" ) )  {
-                statusLabel.setText("Submit Button clicked.");
-            }
-            else  {
-                statusLabel.setText("Cancel Button clicked.");
+            switch( e.getActionCommand() ){
+                case "tl":
+                    textField.setText( "TL button clicked");
+                    break;
+
+                case "tm":
+                    textField.setText( "TM button clicked");
+                    System.out.print("TM button clicked");
+                    break;
+
+                default:
+                    System.out.print(e.getActionCommand());
+                    break;
             }
         }
     }

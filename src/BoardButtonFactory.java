@@ -26,12 +26,19 @@ public class BoardButtonFactory {
     // takes a multidimensional array in and populates the buttons
     // also increases font size for buttons
     public BoardButtonFactory( int[][] labels ){
-        jButtons = new ArrayList<>(); //................................................................................................ instantiate the ArrayList
+        jButtons = new ArrayList<>(); //................................................................................................. instantiate the ArrayList
+        String[][] actionCommands = new String[][]{
+                {"tl", "tm", "tr"},
+                {"ml", "mm", "mr"},
+                {"bl", "bm", "br"},
+        };
+
         for( int row = 0; row < labels.length; row++ ){ //............................................................................... loop through each row
             for( int column = 0; column < labels[row].length; column++ ){
                 JButton addThisButton = ( labels[row][column] > 0 ) ? new JButton( "" + labels[row][column] ) : new JButton( "X" ); //... create a button with label from array - X if its the space
                 addThisButton.setFont(new Font("Arial", Font.PLAIN, 40)); //............................................................. increase font of button
-                addThisButton.setEnabled( enableButton(labels, row, column) ); //........................................................ only enables buttons alowed to move to
+                addThisButton.setEnabled( enableButton(labels, row, column) ); //........................................................ only enables buttons allowed to move to
+                addThisButton.setActionCommand( actionCommands[row][column] ); //........................................................ set the action command
                 jButtons.add( addThisButton ); //........................................................................................ add buttons to ArrayList
             }
         }
@@ -44,7 +51,7 @@ public class BoardButtonFactory {
     }
 
     // Method to return the ArrayList full of buttons
-    public ArrayList<JButton> getJButtons(){
+    public ArrayList<JButton> getJButtonsAsAList(){
         return jButtons;
     }
 
