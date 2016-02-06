@@ -9,7 +9,7 @@
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
+import java.util.*;
 import javax.swing.*;
 
 public class EightTileGUI {
@@ -43,11 +43,11 @@ public class EightTileGUI {
         });
 
         // ******** LEFT SIDE ************ //
-        gameButtons = new JPanel(); //.................................. panel to hold all buttons in a grid
-        gameButtons.setLayout(new GridLayout(3,3)); //.................. 3x3 layout
-        buttonFactory = new BoardButtonFactory(); //.................... new button factory object
-        buttonBoardList = buttonFactory.getJButtonsAsAList(); //........ instantiate the list of button object for reference
-        addButtonsTo( gameButtons, buttonBoardList ); //................ adds all buttons to gameButtons panel and adds listeners
+        gameButtons = new JPanel(); //................................... panel to hold all buttons in a grid
+        gameButtons.setLayout(new GridLayout(3,3)); //................... 3x3 layout
+        buttonFactory = new BoardButtonFactory( ); //.................... new button factory object
+        buttonBoardList = buttonFactory.getJButtonsAsAList(); //......... instantiate the list of button object for reference
+        addButtonsTo( gameButtons, buttonBoardList ); //................. adds all buttons to gameButtons panel and adds listeners
 
         // ********** RIGHT SIDE *********** //
         JPanel rightSide = new JPanel(); //............................. new panel to hold all items on right side
@@ -98,55 +98,65 @@ public class EightTileGUI {
         public void actionPerformed(ActionEvent e) {
             switch( e.getActionCommand() ){
                 case "tl":
-                    textField.setText( "TL button clicked");
                     updateButtons(0,0);
+                    textField.setText( numberOfStepsLeft() );
                     break;
 
                 case "tm":
-                    textField.setText( "TM button clicked");
                     updateButtons(0,1);
+                    textField.setText( numberOfStepsLeft() );
                     break;
 
                 case "tr":
-                    textField.setText( "Tr button clicked");
                     updateButtons(0,2);
+                    textField.setText( numberOfStepsLeft() );
                     break;
 
                 case "ml":
-                    textField.setText( "ml button clicked");
                     updateButtons(1,0);
+                    textField.setText( numberOfStepsLeft() );
                     break;
 
                 case "mm":
-                    textField.setText( "mM button clicked");
                     updateButtons(1,1);
+                    textField.setText( numberOfStepsLeft() );
                     break;
 
                 case "mr":
-                    textField.setText( "mr button clicked");
                     updateButtons(1,2);
+                    textField.setText( numberOfStepsLeft() );
                     break;
 
                 case "bl":
-                    textField.setText( "bl button clicked");
                     updateButtons(2,0);
+                    textField.setText( numberOfStepsLeft() );
                     break;
 
                 case "bm":
-                    textField.setText( "bm button clicked");
                     updateButtons(2,1);
+                    textField.setText( numberOfStepsLeft() );
                     break;
 
                 case "br":
-                    textField.setText( "br button clicked");
                     updateButtons(2,2);
+                    textField.setText( numberOfStepsLeft() );
                     break;
 
                 case "random":
                     randomBoard();
                     break;
+
+                case "solve":
+                    solveBoard();
+                    break;
             }
         }
+    }
+
+    // Method to return a string with current steps left to solve
+    private String numberOfStepsLeft(){
+        String answer = EightTile.solve(buttonFactory.getjBoard());
+        return answer.split(System.getProperty("line.separator"))[0];
     }
 
     // Method called to update the buttons for the gameboard
@@ -237,5 +247,9 @@ public class EightTileGUI {
             hintLabel.setBackground( Color.white ); //.... reset color
             hintLabel.setOpaque(false);
         }
+    }
+
+    private void solveBoard(){
+        textField.setText( EightTile.solve(buttonFactory.getjBoard()) );
     }
 }

@@ -17,13 +17,6 @@ public class EightTile {
             {7, 8, -1}
     };
 
-    public EightTile(){
-        int[][] randomBoard = new int[3][3];
-        Integer[][] nums = new Integer[3][3];
-        System.arraycopy(NUMBERS, 0, nums, 0, NUMBERS.length);
-        TileBoard initialBoard = new TileBoard( toPrimitive(nums) );
-    }
-
     // Method to convert Integer to int and shuffle
     private static int[][] toPrimitive(Integer[][] array) {
         int[][] result = new int[array.length][array.length]; //. multidimensional array to hold the converted result
@@ -46,25 +39,19 @@ public class EightTile {
         return result;
     }
 
-    public static void main( String[] args ){
-//        final TileBoard GOAL_STATE = new TileBoard(); //................................ the ideal configuration board
-        TileBoard initialBoard = new TileBoard( new int[][] { //........................ initial board
-                {1,3,4},
-                {8,2,5},
-                {7,6,-1}
-        } );
-
+    public static String solve( TileBoard board ){
+        final TileBoard GOAL_STATE = new TileBoard(); //................................ the ideal configuration board
         Queue<TileBoard> open = new LinkedList<>(); //.................................. the queue of open boards
-        ArrayList<String> mostEfficientRoute = new ArrayList<>(); //............l....... list to hold most efficient route
+        ArrayList<String> mostEfficientRoute = new ArrayList<>(); //.................... list to hold most efficient route
         ArrayList<TileBoard> closed = new ArrayList<>(); //............................. list of already closed boards
         boolean isSolved = false; //.................................................... variable for algorithm loop
 
-        open.add(initialBoard); //...................................................... add initial board to queue
+        open.add(board); //.............................................................. add initial board to queue
 
         while( !isSolved ){ //.......................................................... while we've not solved the route
             if( open.isEmpty() ){ //.................................................... if the queue is empty we're done, no solution
                 System.out.println( "No solution" );
-                isSolved = true;
+                break;
             }
 
             TileBoard n = open.peek(); //.............................................. get the board at top of queue to analyze
@@ -79,9 +66,10 @@ public class EightTile {
         }
 
         if( mostEfficientRoute.size() == 0 ) {
-            System.out.println("Great Success, This is the goal state!");
+            return String.format("Great Success, This is the goal state!");
         }
-        else printStepsToSolve( mostEfficientRoute );
+        else
+            return getStepsToSolve( mostEfficientRoute );
     }
 
     // Method to add all the child nodes to the queue
@@ -92,7 +80,6 @@ public class EightTile {
         for( String direction: n.getAvailableMoves() ){ //......................................................................... loops through all available moves
             TileBoard copyBoard = new TileBoard( n.getBoard() ); //................................................................ makes a copy of the current board
             copyBoard.move(direction); //.......................................................................................... makes one of the available moves
-
             if( !boardInClosed(copyBoard, closed) ){ //............................................................................ if the board is not in closed
                 if( copyBoard.hScore() < n.hScore() ){
                     routeString = direction; //.................................................................................... keep track of the direction
@@ -100,7 +87,6 @@ public class EightTile {
                 }
             }
         }
-
         if(!routeString.equals("")) //............................................................................................. as long as the string is not empty add it to route
             route.add( routeString );
     }
@@ -116,11 +102,12 @@ public class EightTile {
     }
 
     // Method to print out the steps in order on how to solve the puzzle
-    private static void printStepsToSolve( ArrayList<String> route ){
-        System.out.printf( "Steps to solve: %d%n", route.size()); //...... a header
+    private static String getStepsToSolve(ArrayList<String> route ){
+        String returnString = String.format( "Steps to solve: %d%n", route.size() );
         for( int i = 0; i < route.size(); i++ ){ //....................... loop through all routes and print them
-            System.out.printf( "%d: %s%n", i+1,fullWord(route.get(i)) );
+            returnString += String.format( "%d: %s%n", i+1,fullWord(route.get(i)) );
         }
+        return returnString;
     }
 
     // Method to return the full word based on the direction

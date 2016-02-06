@@ -24,7 +24,7 @@ public class TileBoard {
     public TileBoard() {
         this.board = new int[][] {
                 {1,2,3},
-                {8,EMPTY_SPACE,4},
+                {8,-1,4},
                 {7,6,5}
         }; //....................................................... instantiates the board and populates with default values in the correct order
 
@@ -70,7 +70,7 @@ public class TileBoard {
             int x = (int)this.emptySpaceLocation.getX(); //........................... get current x for empty space
             int y = (int)this.emptySpaceLocation.getY(); //........................... get current y for empty space
 
-            switch( direction.toLowerCase() ){ //..................................... switch to determine the direction chosen
+            switch( direction ){ //..................................... switch to determine the direction chosen
                 case "n": //.......................................................... move north
                     this.updateBoard( (x-1) , y );
                     break;
@@ -105,7 +105,7 @@ public class TileBoard {
     // based on the current location of the empty space coordinates
     // default case is false
     public boolean isValidMove( String direction ){
-        switch (direction.toLowerCase()){
+        switch (direction){
             case "n":
                 return ( this.emptySpaceLocation.getX() > 0 );
 
@@ -220,28 +220,28 @@ public class TileBoard {
     private int determinePoints(int num, int x, int y ){
         switch( num ) {
             case 1:
-                return Math.abs((0 - x) + (0 - y));
+                return Math.abs((0 - x)) + Math.abs((0 - y));
 
             case 2:
-                return Math.abs((0 - x) + (1 - y));
+                return Math.abs((0 - x)) + Math.abs((1 - y));
 
             case 3:
-                return Math.abs((0 - x) + (2 - y));
+                return Math.abs((0 - x)) + Math.abs((2 - y));
 
             case 4:
-                return Math.abs((1 - x) + (2 - y));
+                return Math.abs((1 - x)) + Math.abs((2 - y));
 
             case 5:
-                return Math.abs((2 - x) + (2 - y));
+                return Math.abs((2 - x)) + Math.abs((2 - y));
 
             case 6:
-                return Math.abs((2 - x) + (1 - y));
+                return Math.abs((2 - x)) + Math.abs((1 - y));
 
             case 7:
-                return Math.abs((2 - x) + (0 - y));
+                return Math.abs((2 - x)) + Math.abs((0 - y));
 
             case 8:
-                return Math.abs((1 - x) + (0 - y));
+                return Math.abs((1 - x)) + Math.abs((0 - y));
         }
         return 0;
     }
