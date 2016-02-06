@@ -7,6 +7,7 @@
  * Contact: bear.nobel at gmail
  */
 
+import javafx.animation.Timeline;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class EightTileGUI {
     private JTextArea textField;
     private BoardButtonFactory buttonFactory;
     private ArrayList<JButton> buttonBoardList;
+    private JFrame mainFrame;
+    private JLabel hintLabel;
 
     public EightTileGUI(){
         prepareGUI();
@@ -30,7 +33,7 @@ public class EightTileGUI {
     // Method to setup the GUI
     // Frame is 500x500
     private void prepareGUI(){
-        JFrame mainFrame = new JFrame("EightTile Game"); //.................... creates a frame to hold everything
+        mainFrame = new JFrame("EightTile Game"); //.................... creates a frame to hold everything
         mainFrame.setSize(500,500); //......................................... sets frame size
         mainFrame.setLayout(new GridLayout(0, 2)); //.......................... there's two sections, game buttons and everything else
 
@@ -62,7 +65,8 @@ public class EightTileGUI {
         textField.setEditable(false); //................................. don't allow user to edit the area
 
         // ************* HINT LABEL ****************** //
-        JLabel hintLabel = new JLabel("Hint", SwingConstants.CENTER); //. creates hint label
+        hintLabel = new JLabel("Hint", SwingConstants.CENTER); //. creates hint label
+        hintLabel.addMouseListener( new HintButtonHover() );
 
         // ************* GENERATE NEW BOARD BUTTON ************* //
         JButton generateButton = new JButton("GENERATE");
@@ -181,5 +185,24 @@ public class EightTileGUI {
         }
 
         return null;
+    }
+
+    private class HintButtonHover extends MouseAdapter{
+
+        @Override
+        public void mouseEntered(MouseEvent me) {
+            super.mouseEntered(me);
+            textField.setText("Mouse Entered");
+            hintLabel.setBackground( Color.lightGray);
+            hintLabel.setOpaque(true);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            super.mouseExited(e);
+            textField.setText("Exit");
+            hintLabel.setBackground( Color.white );
+            hintLabel.setOpaque(false);
+        }
     }
 }
