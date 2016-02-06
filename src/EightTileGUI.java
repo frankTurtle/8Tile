@@ -65,8 +65,8 @@ public class EightTileGUI {
         textField.setEditable(false); //................................. don't allow user to edit the area
 
         // ************* HINT LABEL ****************** //
-        hintLabel = new JLabel("Hint", SwingConstants.CENTER); //. creates hint label
-        hintLabel.addMouseListener( new HintButtonHover() );
+        hintLabel = new JLabel("Hint", SwingConstants.CENTER); //........ creates hint label
+        hintLabel.addMouseListener( new HintButtonHover() ); //.......... handles hovering ( displays hint )
 
         // ************* GENERATE NEW BOARD BUTTON ************* //
         JButton generateButton = new JButton("GENERATE");
@@ -187,6 +187,7 @@ public class EightTileGUI {
         return null;
     }
 
+    // Method to handle mouse hover over the hint label
     private class HintButtonHover extends MouseAdapter{
 
         @Override
