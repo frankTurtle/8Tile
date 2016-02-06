@@ -9,13 +9,16 @@
  */
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class TileBoard {
 
     private final int EMPTY_SPACE = -1; //........ variable for the empty space
     private int[][] board; //..................... multidimensional array to the emptySpaceLocation of all spaces on the board
     private Point emptySpaceLocation; //........... emptySpaceLocation of the empty space
+
 
     // Default constructor
     public TileBoard() {
@@ -241,6 +244,28 @@ public class TileBoard {
                 return Math.abs((1 - x) + (0 - y));
         }
         return 0;
+    }
+
+    // Method to convert Integer to int and shuffle
+    public static int[][] toPrimitive(Integer[][] array) {
+        int[][] result = new int[array.length][array.length]; //. multidimensional array to hold the converted result
+        ArrayList<Integer> temp = new ArrayList<>(); //.......... temp ArrayList to put all values into
+        for (int i = 0; i < array.length; i++) { //.............. add all values from array passed in into tmp
+            for( Integer num : array[i] ){
+                temp.add( num );
+            }
+        }
+
+        Collections.shuffle( temp ); //......................... shuffle tmp
+        int index = temp.size() - 1; //......................... get size of tmp
+
+        for (int i = 0; i < array.length; i++) { //............. add each element of tmp into the array to return
+            for( int j = 0; j < array[i].length; j++ ){
+                result[i][j] = temp.remove( index );
+                index--;
+            }
+        }
+        return result;
     }
 
 }

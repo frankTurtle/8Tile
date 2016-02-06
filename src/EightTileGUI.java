@@ -7,7 +7,6 @@
  * Contact: bear.nobel at gmail
  */
 
-import javafx.animation.Timeline;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -70,6 +69,8 @@ public class EightTileGUI {
 
         // ************* GENERATE NEW BOARD BUTTON ************* //
         JButton generateButton = new JButton("RANDOM");
+        generateButton.setActionCommand( "random" );
+        generateButton.addActionListener( new ButtonClickListener() );
 
         rightSide.add(searchTypes); //.................................... add all components to the panel on the right side
         rightSide.add(textField);
@@ -131,6 +132,10 @@ public class EightTileGUI {
                     textField.setText( "br button clicked");
                     updateButtons(2,2);
                     break;
+
+                case "random":
+                    randomBoard();
+                    break;
             }
         }
     }
@@ -146,6 +151,24 @@ public class EightTileGUI {
         addButtonsTo( gameButtons, buttonBoardList ); //......................... add all new buttons back onto the board
 
         gameButtons.revalidate(); //............................................. update and repaint all buttons
+        gameButtons.repaint();
+    }
+
+    // Method to generate a random board
+    private void randomBoard(){
+        final Integer[][] NUMBERS = {
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, -1}
+        };
+        for( JButton btn : buttonBoardList )gameButtons.remove(btn); //............ removes all current buttons
+        TileBoard tempBoard = new TileBoard( TileBoard.toPrimitive(NUMBERS) ); //.. creates a temporary board
+        buttonFactory = new BoardButtonFactory( tempBoard ); //.................... update the button factory to newest moved coordinates
+        buttonBoardList = buttonFactory.getJButtonsAsAList(); //................... update list of buttons
+
+        addButtonsTo( gameButtons, buttonBoardList ); //........................... add all new buttons back onto the board
+
+        gameButtons.revalidate(); //............................................... update and repaint all buttons
         gameButtons.repaint();
     }
 
