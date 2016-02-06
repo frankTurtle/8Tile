@@ -190,18 +190,18 @@ public class EightTileGUI {
     private class HintButtonHover extends MouseAdapter{
 
         @Override
-        public void mouseEntered(MouseEvent me) {
+        public void mouseEntered(MouseEvent me) { //....... hover over the label
             super.mouseEntered(me);
             textField.setText("Mouse Entered");
-            hintLabel.setBackground( Color.lightGray);
+            hintLabel.setBackground( Color.lightGray); //.. change BG color
             hintLabel.setOpaque(true);
         }
 
         @Override
-        public void mouseExited(MouseEvent e) {
+        public void mouseExited(MouseEvent e) { //........ leave hovering
             super.mouseExited(e);
             textField.setText("Exit");
-            hintLabel.setBackground( Color.white );
+            hintLabel.setBackground( Color.white ); //.... reset color
             hintLabel.setOpaque(false);
         }
     }
