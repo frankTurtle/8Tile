@@ -145,11 +145,6 @@ public class TileBoard {
         return returnPoint;
     }
 
-    // Method to set the empty space location from a Point object
-    public void setEmptySpaceLocation( Point emptySpaceLocation ){
-        this.emptySpaceLocation.setLocation( emptySpaceLocation );
-    }
-
     // Method to set the empty space based on the coordinates
     public void setEmptySpaceLocation( int x, int y ){
         this.emptySpaceLocation.setLocation( x, y );

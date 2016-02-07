@@ -17,28 +17,7 @@ public class EightTile {
             {7, 8, -1}
     };
 
-    // Method to convert Integer to int and shuffle
-    private static int[][] toPrimitive(Integer[][] array) {
-        int[][] result = new int[array.length][array.length]; //. multidimensional array to hold the converted result
-        ArrayList<Integer> temp = new ArrayList<>(); //.......... temp ArrayList to put all values into
-        for (int i = 0; i < array.length; i++) { //.............. add all values from array passed in into tmp
-            for( Integer num : array[i] ){
-                temp.add( num );
-            }
-        }
-
-        Collections.shuffle( temp ); //......................... shuffle tmp
-        int index = temp.size() - 1; //......................... get size of tmp
-
-        for (int i = 0; i < array.length; i++) { //............. add each element of tmp into the array to return
-            for( int j = 0; j < array[i].length; j++ ){
-                result[i][j] = temp.remove( index );
-                index--;
-            }
-        }
-        return result;
-    }
-
+    // Method to solve using the breadthFirst Algorithm
     public static String breadthSolve(TileBoard board ){
         final TileBoard GOAL_STATE = new TileBoard(); //................................ the ideal configuration board
         Queue<TileBoard> open = new LinkedList<>(); //.................................. the queue of open boards
