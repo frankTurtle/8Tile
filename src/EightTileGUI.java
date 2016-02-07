@@ -7,8 +7,6 @@
  * Contact: bear.nobel at gmail
  */
 
-import jdk.nashorn.internal.runtime.arrays.ArrayIndex;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -246,33 +244,33 @@ public class EightTileGUI {
     private class HintButtonHover extends MouseAdapter{
 
         @Override
-        public void mouseEntered(MouseEvent me) { //....... hover over the label
+        public void mouseEntered(MouseEvent me) { //................................................................. hover over the label
             super.mouseEntered(me);
             try{
-                String steps = numberOfStepsLeft(1);
-                textField.setText(String.format("Pssst ... try heading %s", steps.substring(3,steps.length())));
+                String steps = numberOfStepsLeft(1); //.............................................................. get the first step to solve
+                textField.setText(String.format("Pssst ... try heading %s", steps.substring(3,steps.length()))); //.. set it to the text field
             }
-            catch ( ArrayIndexOutOfBoundsException e){}
+            catch ( ArrayIndexOutOfBoundsException e){} //........................................................... index out of bound error when the user has not moved yet so catch it an do nothing
 
-            hintLabel.setBackground( Color.lightGray); //.. change BG color
+            hintLabel.setBackground( Color.lightGray); //............................................................ change BG color
             hintLabel.setOpaque(true);
 
-            if( hintLabelCount == 0) textField.setText( "No remaining hints left!" );
-            else hintLabelCount--;
-            hintRemaining.setText( String.format("Remaining: %d", hintLabelCount)  );
+            if( hintLabelCount == 0) textField.setText( "No remaining hints left!" ); //............................. if theres no more hints left
+            else hintLabelCount--; //................................................................................ subtract one if there are
+            hintRemaining.setText( String.format("Remaining: %d", hintLabelCount)  ); //............................. update the label
         }
 
         @Override
-        public void mouseExited(MouseEvent e) { //........ leave hovering
+        public void mouseExited(MouseEvent e) { //................................................................... leave hovering
             super.mouseExited(e);
-            textField.setText("Exit");
-            hintLabel.setBackground( Color.white ); //.... reset color
+            hintLabel.setBackground( Color.white ); //............................................................... reset color
             hintLabel.setOpaque(false);
-
-            textField.setText( numberOfStepsLeft(0) );
+            textField.setText( numberOfStepsLeft(0) ); //............................................................ reset text
         }
     }
 
+    // Method to print hte steps to solve the current board
+    // called when the solve button is pressed
     private void solveBoard(){
         textField.setText( EightTile.breadthSolve(buttonFactory.getjBoard()) );
     }
