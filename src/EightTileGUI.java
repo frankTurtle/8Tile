@@ -7,6 +7,8 @@
  * Contact: bear.nobel at gmail
  */
 
+import jdk.nashorn.internal.runtime.arrays.ArrayIndex;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -110,47 +112,47 @@ public class EightTileGUI {
             switch( e.getActionCommand() ){
                 case "tl":
                     updateButtons(0,0);
-                    textField.setText( numberOfStepsLeft() );
+                    textField.setText( numberOfStepsLeft(0) );
                     break;
 
                 case "tm":
                     updateButtons(0,1);
-                    textField.setText( numberOfStepsLeft() );
+                    textField.setText( numberOfStepsLeft(0) );
                     break;
 
                 case "tr":
                     updateButtons(0,2);
-                    textField.setText( numberOfStepsLeft() );
+                    textField.setText( numberOfStepsLeft(0) );
                     break;
 
                 case "ml":
                     updateButtons(1,0);
-                    textField.setText( numberOfStepsLeft() );
+                    textField.setText( numberOfStepsLeft(0) );
                     break;
 
                 case "mm":
                     updateButtons(1,1);
-                    textField.setText( numberOfStepsLeft() );
+                    textField.setText( numberOfStepsLeft(0) );
                     break;
 
                 case "mr":
                     updateButtons(1,2);
-                    textField.setText( numberOfStepsLeft() );
+                    textField.setText( numberOfStepsLeft(0) );
                     break;
 
                 case "bl":
                     updateButtons(2,0);
-                    textField.setText( numberOfStepsLeft() );
+                    textField.setText( numberOfStepsLeft(0) );
                     break;
 
                 case "bm":
                     updateButtons(2,1);
-                    textField.setText( numberOfStepsLeft() );
+                    textField.setText( numberOfStepsLeft(0) );
                     break;
 
                 case "br":
                     updateButtons(2,2);
-                    textField.setText( numberOfStepsLeft() );
+                    textField.setText( numberOfStepsLeft(0) );
                     break;
 
                 case "random":
@@ -165,9 +167,9 @@ public class EightTileGUI {
     }
 
     // Method to return a string with current steps left to breadthSolve
-    private String numberOfStepsLeft(){
+    private String numberOfStepsLeft( int position ){
         String answer = EightTile.breadthSolve(buttonFactory.getjBoard());
-        return answer.split(System.getProperty("line.separator"))[0];
+        return answer.split(System.getProperty("line.separator"))[position];
     }
 
     // Method called to update the buttons for the gameboard
@@ -246,11 +248,18 @@ public class EightTileGUI {
         @Override
         public void mouseEntered(MouseEvent me) { //....... hover over the label
             super.mouseEntered(me);
-            textField.setText("Your hint");
+            try{
+                String steps = numberOfStepsLeft(1);
+                textField.setText(String.format("Pssst ... try heading %s", steps.substring(3,steps.length())));
+            }
+            catch ( ArrayIndexOutOfBoundsException e){}
+
             hintLabel.setBackground( Color.lightGray); //.. change BG color
             hintLabel.setOpaque(true);
 
             if( hintLabelCount == 0) textField.setText( "No remaining hints left!" );
+            else hintLabelCount--;
+            hintRemaining.setText( String.format("Remaining: %d", hintLabelCount)  );
         }
 
         @Override
@@ -260,8 +269,7 @@ public class EightTileGUI {
             hintLabel.setBackground( Color.white ); //.... reset color
             hintLabel.setOpaque(false);
 
-            if( hintLabelCount != 0 ) hintLabelCount--;
-            hintRemaining.setText( String.format("Remaining: %d", hintLabelCount)  );
+            textField.setText( numberOfStepsLeft(0) );
         }
     }
 
