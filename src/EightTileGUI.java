@@ -303,7 +303,8 @@ public class EightTileGUI {
 
     // Method to print hte steps to solve the current board
     // called when the solve button is pressed
+    // checks to see which search it should use based on the button being active or not
     private void solveBoard(){
-        textField.setText( EightTile.breadthSolve(buttonFactory.getjBoard()) );
+        textField.setText( (breadthButton.isEnabled()) ? EightTile.breadthSolve(buttonFactory.getjBoard()) : EightTile.depthSolve(buttonFactory.getjBoard()) );
     }
 }

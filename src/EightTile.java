@@ -51,6 +51,12 @@ public class EightTile {
             return getStepsToSolve( mostEfficientRoute );
     }
 
+    public static String depthSolve( TileBoard board ){
+        String returnString = "Depth Solved";
+
+        return returnString;
+    }
+
     // Method to add all the child nodes to the queue
     // takes the queue, the closed list, and the current board
     private static void addAllNodes( Queue<TileBoard> open, ArrayList<TileBoard> closed, TileBoard n, ArrayList<String> route ){
