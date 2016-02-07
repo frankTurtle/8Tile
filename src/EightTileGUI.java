@@ -20,6 +20,8 @@ public class EightTileGUI {
     private ArrayList<JButton> buttonBoardList;
     private JFrame mainFrame;
     private JLabel hintLabel;
+    private JLabel hintRemaining;
+    private int hintLabelCount = 3;
 
     public EightTileGUI(){
         prepareGUI();
@@ -64,8 +66,17 @@ public class EightTileGUI {
         textField.setEditable(false); //................................. don't allow user to edit the area
 
         // ************* HINT LABEL ****************** //
-        hintLabel = new JLabel("Hint", SwingConstants.CENTER); //........ creates hint label
-        hintLabel.addMouseListener( new HintButtonHover() ); //.......... handles hovering ( displays hint )
+        JPanel hintPanel = new JPanel();
+        hintPanel.setLayout( new GridLayout(0,1) );
+        String remaining = String.format("Remaining: %d", hintLabelCount);
+        hintLabel = new JLabel( "Hint", SwingConstants.CENTER); //........... creates hint label
+        hintRemaining = new JLabel( remaining, SwingConstants.CENTER);
+        hintLabel.addMouseListener( new HintButtonHover() ); //.............. handles hovering ( displays hint )
+        hintLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        hintRemaining.setFont( new Font("Arial", Font.PLAIN, 15) );
+        hintPanel.add(hintLabel);
+        hintPanel.add(hintRemaining);
+
 
         // ************* GENERATE NEW BOARD BUTTON ************* //
         JPanel generateAndSolveButtons = new JPanel();
@@ -74,7 +85,7 @@ public class EightTileGUI {
         JButton generateButton = new JButton("RANDOM");
         JButton solveButton = new JButton( "SOLVE" );
         generateButton.setActionCommand( "random" );
-        solveButton.setActionCommand( "solve" );
+        solveButton.setActionCommand( "breadthSolve" );
         generateButton.addActionListener( new ButtonClickListener() );
         solveButton.addActionListener( new ButtonClickListener() );
 
@@ -83,7 +94,7 @@ public class EightTileGUI {
 
         rightSide.add(searchTypes); //.................................... add all components to the panel on the right side
         rightSide.add(textField);
-        rightSide.add(hintLabel);
+        rightSide.add(hintPanel);
         rightSide.add(generateAndSolveButtons);
 
         mainFrame.add(gameButtons); //.................................... add the right and left panels to the mainFrame
@@ -146,16 +157,16 @@ public class EightTileGUI {
                     randomBoard();
                     break;
 
-                case "solve":
+                case "breadthSolve":
                     solveBoard();
                     break;
             }
         }
     }
 
-    // Method to return a string with current steps left to solve
+    // Method to return a string with current steps left to breadthSolve
     private String numberOfStepsLeft(){
-        String answer = EightTile.solve(buttonFactory.getjBoard());
+        String answer = EightTile.breadthSolve(buttonFactory.getjBoard());
         return answer.split(System.getProperty("line.separator"))[0];
     }
 
@@ -235,9 +246,11 @@ public class EightTileGUI {
         @Override
         public void mouseEntered(MouseEvent me) { //....... hover over the label
             super.mouseEntered(me);
-            textField.setText("Mouse Entered");
+            textField.setText("Your hint");
             hintLabel.setBackground( Color.lightGray); //.. change BG color
             hintLabel.setOpaque(true);
+
+            if( hintLabelCount == 0) textField.setText( "No remaining hints left!" );
         }
 
         @Override
@@ -246,10 +259,13 @@ public class EightTileGUI {
             textField.setText("Exit");
             hintLabel.setBackground( Color.white ); //.... reset color
             hintLabel.setOpaque(false);
+
+            if( hintLabelCount != 0 ) hintLabelCount--;
+            hintRemaining.setText( String.format("Remaining: %d", hintLabelCount)  );
         }
     }
 
     private void solveBoard(){
-        textField.setText( EightTile.solve(buttonFactory.getjBoard()) );
+        textField.setText( EightTile.breadthSolve(buttonFactory.getjBoard()) );
     }
 }

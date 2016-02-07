@@ -39,7 +39,7 @@ public class EightTile {
         return result;
     }
 
-    public static String solve( TileBoard board ){
+    public static String breadthSolve(TileBoard board ){
         final TileBoard GOAL_STATE = new TileBoard(); //................................ the ideal configuration board
         Queue<TileBoard> open = new LinkedList<>(); //.................................. the queue of open boards
         ArrayList<String> mostEfficientRoute = new ArrayList<>(); //.................... list to hold most efficient route
@@ -80,7 +80,7 @@ public class EightTile {
         for( String direction: n.getAvailableMoves() ){ //......................................................................... loops through all available moves
             TileBoard copyBoard = new TileBoard( n.getBoard() ); //................................................................ makes a copy of the current board
             copyBoard.move(direction); //.......................................................................................... makes one of the available moves
-            if( !boardInClosed(copyBoard, closed) ){ //............................................................................ if the board is not in closed
+            if( !boardInOpenAndClose(copyBoard, closed, open) ){ //...................................................................... if the board is not in closed
                 if( copyBoard.hScore() < n.hScore() ){
                     routeString = direction; //.................................................................................... keep track of the direction
                     open.add( copyBoard ); //...................................................................................... add it to the queue
@@ -93,17 +93,23 @@ public class EightTile {
 
     // Method to check if a board is already closed
     // takes in the current board and the closed list
-    private static boolean boardInClosed( TileBoard board, ArrayList<TileBoard> closed ) {
+    private static boolean boardInOpenAndClose( TileBoard board, ArrayList<TileBoard> closed, Queue<TileBoard> open ) {
         for( TileBoard closedBoard: closed ){ //............................................ loops through each board in the closed list
             if( board.equals(closedBoard )) return true; //................................. if the current board is equal to the one in the closed list it's in closed!
+        }
+
+        LinkedList<TileBoard> openCopy = new LinkedList<>(open);
+
+        for( TileBoard openBoard : openCopy ){
+            if( board.equals( openBoard )) return true;
         }
 
         return false; //.................................................................... if it makes it through all closed and hasn't returned true, its NOT in the closed list
     }
 
-    // Method to print out the steps in order on how to solve the puzzle
+    // Method to print out the steps in order on how to breadthSolve the puzzle
     private static String getStepsToSolve(ArrayList<String> route ){
-        String returnString = String.format( "Steps to solve: %d%n", route.size() );
+        String returnString = String.format( "Steps to Solve: %d%n", route.size() );
         for( int i = 0; i < route.size(); i++ ){ //....................... loop through all routes and print them
             returnString += String.format( "%d: %s%n", i+1,fullWord(route.get(i)) );
         }
