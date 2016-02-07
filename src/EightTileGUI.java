@@ -21,6 +21,8 @@ public class EightTileGUI {
     private JFrame mainFrame;
     private JLabel hintLabel;
     private JLabel hintRemaining;
+    private JButton breadthButton;
+    private JButton depthButton;
     private int hintLabelCount = 3;
 
     public EightTileGUI(){
@@ -58,8 +60,21 @@ public class EightTileGUI {
         // ********** SEARCH TYPE ************ //
         JPanel searchTypes = new JPanel(); //........................... panel to add to right side with search type buttons
         searchTypes.setLayout( new GridLayout(0,2) ); //................ layout for button grid 0x2
-        searchTypes.add( new JButton("Breadth") ); //................... add buttons to panel
-        searchTypes.add( new JButton("Depth") );
+
+        breadthButton = new JButton( "Breadth" );
+        depthButton = new JButton( "Depth" );
+
+        breadthButton.setActionCommand( "breadthOrDepth" );
+        depthButton.setActionCommand( "breadthOrDepth" );
+
+        breadthButton.addActionListener( new ButtonClickListener() );
+        depthButton.addActionListener( new ButtonClickListener() );
+
+        breadthButton.setEnabled( false );
+        depthButton.setEnabled( true );
+
+        searchTypes.add( breadthButton ); //................... add buttons to panel
+        searchTypes.add( depthButton );
 
         // ************* TEXT AREA ************* //
         textField = new JTextArea(); //.................................. text area to display results
@@ -85,7 +100,7 @@ public class EightTileGUI {
         JButton generateButton = new JButton("RANDOM");
         JButton solveButton = new JButton( "SOLVE" );
         generateButton.setActionCommand( "random" );
-        solveButton.setActionCommand( "breadthSolve" );
+        solveButton.setActionCommand( "solve" );
         generateButton.addActionListener( new ButtonClickListener() );
         solveButton.addActionListener( new ButtonClickListener() );
 
@@ -157,10 +172,27 @@ public class EightTileGUI {
                     randomBoard();
                     break;
 
-                case "breadthSolve":
+                case "solve":
                     solveBoard();
                     break;
+
+                case "breadthOrDepth":
+                    updateBreadthAndDepthButtons();
+                    break;
             }
+        }
+    }
+
+    // Method to update Breadth and Depth button
+    private void updateBreadthAndDepthButtons(){
+        if( breadthButton.isEnabled() ){
+            breadthButton.setEnabled( false );
+            depthButton.setEnabled( true );
+        }
+        else{
+            breadthButton.setEnabled( true );
+            depthButton.setEnabled( false );
+            System.out.println( "here" );
         }
     }
 
