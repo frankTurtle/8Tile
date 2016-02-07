@@ -192,7 +192,6 @@ public class EightTileGUI {
         else{
             breadthButton.setEnabled( true );
             depthButton.setEnabled( false );
-            System.out.println( "here" );
         }
     }
 
