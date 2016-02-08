@@ -2,7 +2,7 @@
  * Class EightTileGUI
  * This class to give it a GUI and user interaction
  * Created: 02/05/16
- * Updated: 02/06/16
+ * Updated: 02/07/16
  * Author: Barret J. Nobel
  * Contact: bear.nobel at gmail
  */
@@ -18,13 +18,14 @@ public class EightTileGUI {
     private JTextArea textField;
     private BoardButtonFactory buttonFactory;
     private ArrayList<JButton> buttonBoardList;
-    private JFrame mainFrame;
     private JLabel hintLabel;
     private JLabel hintRemaining;
     private JButton breadthButton;
     private JButton depthButton;
     private int hintLabelCount = 3;
 
+    // Default constructor
+    // used to setup the GUI
     public EightTileGUI(){
         prepareGUI();
     }
@@ -36,11 +37,11 @@ public class EightTileGUI {
     // Method to setup the GUI
     // Frame is 500x500
     private void prepareGUI(){
-        mainFrame = new JFrame("EightTile Game"); //.................... creates a frame to hold everything
+        JFrame mainFrame = new JFrame("EightTile Game"); //.................... creates a frame to hold everything
         mainFrame.setSize(500,500); //......................................... sets frame size
         mainFrame.setLayout(new GridLayout(0, 2)); //.......................... there's two sections, game buttons and everything else
 
-        mainFrame.addWindowListener(new WindowAdapter() { //................... listener to close game
+        mainFrame.addWindowListener(new WindowAdapter() { //................... listener to close game when user clicks the X
             public void windowClosing(WindowEvent windowEvent){
                 System.exit(0);
             }
@@ -54,26 +55,26 @@ public class EightTileGUI {
         addButtonsTo( gameButtons, buttonBoardList ); //................. adds all buttons to gameButtons panel and adds listeners
 
         // ********** RIGHT SIDE *********** //
-        JPanel rightSide = new JPanel(); //............................. new panel to hold all items on right side
-        rightSide.setLayout( new GridLayout(4,1) ); //.................. 4x1 grid
+        JPanel rightSide = new JPanel(); //.............................. new panel to hold all items on right side
+        rightSide.setLayout( new GridLayout(4,1) ); //................... 4x1 grid
 
         // ********** SEARCH TYPE ************ //
-        JPanel searchTypes = new JPanel(); //........................... panel to add to right side with search type buttons
-        searchTypes.setLayout( new GridLayout(0,2) ); //................ layout for button grid 0x2
+        JPanel searchTypes = new JPanel(); //............................ panel to add to right side with search type buttons
+        searchTypes.setLayout( new GridLayout(0,2) ); //................. layout for button grid 0x2
 
-        breadthButton = new JButton( "Breadth" );
+        breadthButton = new JButton( "Breadth" ); //..................... buttons
         depthButton = new JButton( "Depth" );
 
-        breadthButton.setActionCommand( "breadthOrDepth" );
+        breadthButton.setActionCommand( "breadthOrDepth" ); //........... set the command for the buttons
         depthButton.setActionCommand( "breadthOrDepth" );
 
-        breadthButton.addActionListener( new ButtonClickListener() );
+        breadthButton.addActionListener( new ButtonClickListener() ); //. setup the listener to respond when they're pressed
         depthButton.addActionListener( new ButtonClickListener() );
 
         breadthButton.setEnabled( false );
         depthButton.setEnabled( true );
 
-        searchTypes.add( breadthButton ); //................... add buttons to panel
+        searchTypes.add( breadthButton ); //............................. add buttons to panel
         searchTypes.add( depthButton );
 
         // ************* TEXT AREA ************* //
@@ -81,44 +82,49 @@ public class EightTileGUI {
         textField.setEditable(false); //................................. don't allow user to edit the area
 
         // ************* HINT LABEL ****************** //
-        JPanel hintPanel = new JPanel();
-        hintPanel.setLayout( new GridLayout(0,1) );
-        String remaining = String.format("Remaining: %d", hintLabelCount);
-        hintLabel = new JLabel( "Hint", SwingConstants.CENTER); //........... creates hint label
+        JPanel hintPanel = new JPanel(); //................................... new panel to hold the hint labels
+        hintPanel.setLayout( new GridLayout(0,1) ); //........................ set the layout
+        String remaining = String.format("Remaining: %d", hintLabelCount); //. initial label for the hints remaining
+        hintLabel = new JLabel( "Hint", SwingConstants.CENTER); //............ creates labels
         hintRemaining = new JLabel( remaining, SwingConstants.CENTER);
-        hintLabel.addMouseListener( new HintButtonHover() ); //.............. handles hovering ( displays hint )
-        hintLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+
+        hintLabel.addMouseListener( new HintButtonHover() ); //.............. handles hovering with the mouse ( displays hint )
+
+        hintLabel.setFont(new Font("Arial", Font.PLAIN, 20)); //............. sets up the fonts and sizes
         hintRemaining.setFont( new Font("Arial", Font.PLAIN, 15) );
-        hintPanel.add(hintLabel);
+
+        hintPanel.add(hintLabel); //......................................... adds them to the panel
         hintPanel.add(hintRemaining);
 
 
-        // ************* GENERATE NEW BOARD BUTTON ************* //
-        JPanel generateAndSolveButtons = new JPanel();
-        generateAndSolveButtons.setLayout( new GridLayout(0,2) );
+        // ******* GENERATE RANDOM / SOLVE BOARD BUTTON ****** //
+        JPanel generateAndSolveButtons = new JPanel(); //..................... panel for the random and solving buttons
+        generateAndSolveButtons.setLayout( new GridLayout(0,2) ); //.......... set layout
 
-        JButton generateButton = new JButton("RANDOM");
+        JButton generateButton = new JButton("RANDOM"); //.................... create buttons
         JButton solveButton = new JButton( "SOLVE" );
-        generateButton.setActionCommand( "random" );
+
+        generateButton.setActionCommand( "random" ); //....................... set commands when buttons are pressed
         solveButton.setActionCommand( "solve" );
-        generateButton.addActionListener( new ButtonClickListener() );
+
+        generateButton.addActionListener( new ButtonClickListener() ); //...... sets litener to act when pressed
         solveButton.addActionListener( new ButtonClickListener() );
 
-        generateAndSolveButtons.add( generateButton );
+        generateAndSolveButtons.add( generateButton ); //...................... add to panel
         generateAndSolveButtons.add( solveButton );
 
-        rightSide.add(searchTypes); //.................................... add all components to the panel on the right side
+        rightSide.add(searchTypes); //......................................... add all components to the panel on the right side
         rightSide.add(textField);
         rightSide.add(hintPanel);
         rightSide.add(generateAndSolveButtons);
 
-        mainFrame.add(gameButtons); //.................................... add the right and left panels to the mainFrame
+        mainFrame.add(gameButtons); //......................................... add the right and left panels to the mainFrame
         mainFrame.add(rightSide);
 
         mainFrame.setVisible(true); //.................................... display it!
     }
 
-    // Method to deal with the gamepad buttons being clicked
+    // Method to deal with the gameboard buttons being clicked
     // updates the game board and available options
     private class ButtonClickListener implements ActionListener{
         public void actionPerformed(ActionEvent e) {
@@ -184,6 +190,7 @@ public class EightTileGUI {
     }
 
     // Method to update Breadth and Depth button
+    // enables / disables based on what their current stat is
     private void updateBreadthAndDepthButtons(){
         if( breadthButton.isEnabled() ){
             breadthButton.setEnabled( false );
