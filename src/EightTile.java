@@ -23,8 +23,7 @@ public class EightTile {
 
         while( !isSolved ){ //.......................................................... while we've not solved the route
             if( open.isEmpty() ){ //.................................................... if the queue is empty we're done, no solution
-                System.out.println( "No solution" );
-                break;
+                return "No solution";
             }
 
             TileBoard n = open.peek(); //.............................................. get the board at top of queue to analyze
@@ -58,8 +57,7 @@ public class EightTile {
 
         while( !isSolved ){ //......................................................... while its not solved
             if( open.isEmpty() ){ //................................................... if the queue is empty we're done, no solution
-                System.out.println( "No solution" );
-                break;
+                return "No solution";
             }
 
             TileBoard n = open.pop(); //............................................... take the first board
@@ -70,8 +68,7 @@ public class EightTile {
                 continue;
             }
             else if( currentDepth > DEPTH_END ){ //.................................... if we're too deep abort
-                System.out.println( "Depth limit reached, No solution" );
-                break;
+                return "Depth limit reached, No solution";
             }
             else{ //................................................................... continue with searching
                 addAllNodesDepth( open, closed, n, mostEfficientRoute ); //............ add all available nodes to the stack
