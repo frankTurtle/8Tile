@@ -175,7 +175,8 @@ public class EightTileGUI {
                     break;
 
                 case "random":
-                    randomBoard();
+                    twentyRandomMovesBoard();
+                    textField.setText( numberOfStepsLeft(0) );
                     break;
 
                 case "solve":
@@ -238,6 +239,36 @@ public class EightTileGUI {
 
         gameButtons.revalidate(); //............................................... update and repaint all buttons
         gameButtons.repaint();
+    }
+
+    // Method to generate a board that's possible to be solved
+    // moves the starting board randomly in 20 possible directions
+    private void twentyRandomMovesBoard(){
+        for( JButton btn : buttonBoardList )gameButtons.remove(btn); //............ removes all current buttons
+        TileBoard tempBoard = new TileBoard(); //.................................. creates a temporary board
+        moveBoard( tempBoard ); //................................................. move it a random 10 moves
+        buttonFactory = new BoardButtonFactory( tempBoard ); //.................... update the button factory to newest moved coordinates
+        buttonBoardList = buttonFactory.getJButtonsAsAList(); //................... update list of buttons
+
+        addButtonsTo( gameButtons, buttonBoardList ); //........................... add all new buttons back onto the board
+
+        gameButtons.revalidate(); //............................................... update and repaint all buttons
+        gameButtons.repaint();
+
+    }
+
+    // Method to move the board 20 times
+    private static void moveBoard( TileBoard board ){
+        final int MIN = 0; //................................... minimum number to move
+        int index = 0; //....................................... index to address in array of possible moves
+        int max; //............................................. max number to choose randomly between
+        Random random = new Random(); //........................ how we get the random index~
+
+        for( int i = 0; i < 20; i++ ){ //....................... move 20 times
+            max = board.getAvailableMoves().length; //.......... set max number to choose randomly between
+            index = random.nextInt(max - MIN); //............... set index
+            board.move( board.getAvailableMoves()[ index ]); //. move the board!
+        }
     }
 
     // Method to add all buttons from a list to the panel

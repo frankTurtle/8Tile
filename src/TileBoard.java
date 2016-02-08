@@ -70,7 +70,7 @@ public class TileBoard {
             int x = (int)this.emptySpaceLocation.getX(); //........................... get current x for empty space
             int y = (int)this.emptySpaceLocation.getY(); //........................... get current y for empty space
 
-            switch( direction ){ //..................................... switch to determine the direction chosen
+            switch( direction ){ //................................................... switch to determine the direction chosen
                 case "n": //.......................................................... move north
                     this.updateBoard( (x-1) , y );
                     break;
